@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatiable" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <title>Carpark NF</title>
+    <link rel="stylesheet" href="./style.css"/>
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+({key: "YOUR_API_KEY", v: "beta"});</script>
+    <script type="module" src="./main.js"></script>
+
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <div class="currloc">
+        <i class='bx bx-current-location'></i>
+    </div>
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">
+                <i class='bx bxs-car'></i>
+                <span class="bold">Carpark NF</span>
+            </div> 
+            <i class="bx bx-menu" id="btn"></i>
+
+        </div>
+        <ul class="menu">
+            <li>
+                <a href="./index.html">
+                    <i class='bx bx-home-alt-2'></i>
+                    <span class="nav-item">Home</span>
+                </a>
+                <span class="tooltip">Home</span>
+            </li>
+            <li>
+                <a href="#showsearch" id="search">
+                    <i class='bx bx-search'></i>
+                    <span class="nav-item">Search</span>
+                </a>
+                <span class="tooltip">Search</span>
+            </li>
+            <li>
+                <a href="./favourite.html">
+                    <i class='bx bxs-bookmarks'></i>
+                    <span class="nav-item">Favourites</span>
+                </a>
+                <span class="tooltip">Favourites</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- SHOW RESULTS BAR -->
+    <div class="search-content">
+        <div class="title">
+            <span class="bold">Search Results</span>
+        </div>
+        <div class="row-tools">
+            <div class="column">
+                <div class="dropdown">
+                        <i class='bx bx-filter'></i>
+                        <span>Sort By</span>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="#distance">Distance</a>
+                        <a href="#availability">Availability</a>
+                        <script>
+        			// Get the links inside the dropdown
+       				 const dropdownLinks = document.querySelectorAll('#myDropdown a');
+
+       				 // Function to handle click event on links
+       				 function handleLinkClick(event) {
+           			 // Prevent the default behavior of the link
+           			 event.preventDefault();
+
+           			 // Get the href attribute of the clicked link
+           			 const href = event.target.getAttribute('href');
+
+           			 // Append the href value to the current URL
+            			window.location.href = window.location.href.split('#')[0] + href;
+
+           			 // Reload the page
+           			 location.reload();
+        			}
+
+        			// Add click event listeners to the links
+        			dropdownLinks.forEach(link => {
+         			   link.addEventListener('click', handleLinkClick);
+       				 });
+   			 </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <ul class="results", id = "carpark-result">
+            </ul>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="search">
+          <input type="text" name="search" class="search-text" placeholder="Search..."/>
+        </div>
+      </div>
+      <div class="full-screen-search">
+        <div class="close">
+            <i class='bx bx-x'></i>
+        </div>
+        <div class="search-container">
+          <input type="text" placeholder="Search...">
+          <button>Search</button>
+        </div>
+      </div>
+
+
+  </body>
+ 
+ 
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector("#search");
+    let homeBtn = document.querySelector(".bx-home-alt-2");
+    let favBtn = document.querySelector(".bxs-bookmarks");
+
+    btn.onclick = function(){
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function(){
+        sidebar.classList.toggle("active");
+    }
+
+    homeBtn.onclick = function(){
+        sidebar.classList.toggle("active");
+    }
+
+    favBtn.onclick = function(){
+        sidebar.classList.toggle("active");
+    }
+
+</script>
+
+
+
+<script>
+    // Initialize and populate results bar with dummy data
+    
+    var results = document.querySelector('.results');
+    var result = document.createElement('li');
+    var resultLink = document.createElement('a');
+    var resultIcon = document.createElement('i');
+    var resultText = document.createElement('span');
+    var resultInfo = document.createElement('div');
+    var column = document.createElement('div');
+    var resultDistance = document.createElement('div');
+    var resultAvailability = document.createElement('div');
+
+    resultLink.href = '#';
+    resultIcon.classList.add('bx', 'bx-map');
+    resultInfo.classList.add('result-info');
+    column.classList.add('column');
+    resultText.classList.add('location');
+    resultText.textContent = '50 Nanyang Ave, 639798';
+    resultDistance.classList.add('distance');
+    resultDistance.textContent = 'Distance: 1.2km';
+    resultAvailability.classList.add('availability');
+    resultAvailability.textContent = 'Availability: 10/20';
+
+    // resultLink.appendChild(resultIcon);
+    // resultLink.appendChild(resultText);
+    // resultInfo.appendChild(resultDistance);
+    // resultInfo.appendChild(resultAvailability);
+    // resultLink.appendChild(resultInfo);
+    // result.appendChild(resultLink);
+    // results.appendChild(result);
+
+</script>
+
+
+<script type="module" src="./filter.js"></script>
+
+
+  
+
+</html>

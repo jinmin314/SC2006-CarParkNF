@@ -1,7 +1,7 @@
 # Carpark NF
 Software Engineering Project
 
-- Final Documentations
+- [Final Documentations](Final/Carpark%20NF%20Final%20Documentation.pdf)
 - [Source Code](Final/Code/)
   - API keys have been removed
 - [Demo Video](https://www.youtube.com/watch?v=iTqXrIhFv7U)
